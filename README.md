@@ -93,27 +93,41 @@ sequenceDiagram
 
 ---
 
-### Step 1: Start the Backend Server
-
-```powershell
-# Open terminal in Trackizo/server
-cd c:\Users\Rudra\Desktop\CrackIt\Trackizo\server
-
-# Run the backend (runs on http://localhost:5000)
-npm run dev
+### Step 1: Clone the Repository
+```bash
+git clone https://github.com/Rudra2637/Movie-App.git
+cd Movie-App
 ```
-
-*The server will automatically initialize `server.db` and start listening on port `5000`.*
 
 ---
 
-### Step 2: Start the React Frontend
+### Step 2: Start the Backend Server (Port 5000)
 
-```powershell
-# Open a second terminal in Trackizo/client
-cd c:\Users\Rudra\Desktop\CrackIt\Trackizo\client
+```bash
+# Navigate to server directory
+cd server
 
-# Run the frontend (runs on http://localhost:5173)
+# Install dependencies (first time only)
+npm install
+
+# Start the Node.js server
+npm run dev
+```
+
+*Note: The server automatically creates the SQLite database (`server.db`), builds all schemas, and seeds initial records on first startup with zero manual configuration.*
+
+---
+
+### Step 3: Start the React Frontend (Port 5173)
+
+```bash
+# Open a new terminal and navigate to client directory
+cd client
+
+# Install dependencies (first time only)
+npm install
+
+# Start the Vite development server
 npm run dev
 ```
 
