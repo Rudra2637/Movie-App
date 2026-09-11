@@ -40,6 +40,15 @@ An end-to-end full-stack movie discovery web application that allows users to ex
 
 ---
 
+> [!IMPORTANT]
+> **Third-Party Movie Data Provider Notice (TMDB API & Resilience)**:
+> This application integrates with **The Movie Database (TMDB) API** (`api.themoviedb.org`) as its primary movie information source.
+> - **Potential External Bottlenecks**: External third-party movie APIs like TMDB can occasionally encounter latency, temporary downtime, or regional ISP DNS throttling. Furthermore, shared public API keys can encounter rate-limiting.
+> - **Graceful Fault Tolerance & Zero-Downtime Design**: To satisfy assignment resilience requirements, our Node.js backend implements an automated **Database Cache-Aside Architecture** and a **Curated Fallback Dataset**. If TMDB is slow or unreachable, the system automatically falls back to local SQLite database records and SVG placeholders, ensuring the application remains interactive and responsive at all times without crashing.
+> - **Optional Dedicated Key**: Reviewers can optionally add a personal free TMDB API key in `server/.env` (`TMDB_API_KEY=your_key`) for dedicated access.
+
+---
+
 ## 🏗️ Architecture & Data Flow
 
 ```mermaid
