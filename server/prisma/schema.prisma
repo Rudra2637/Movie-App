@@ -1,0 +1,52 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Cached Movie Details & Search Results (Cache-Aside Strategy)
+model MovieCache {
+  id            Int       @id // TMDB movie ID
+  title         String
+  overview      String?
+  posterPath    String?
+  backdropPath  String?
+  releaseDate   String?
+  voteAverage   Float?
+  voteCount     Int?
+  runtime       Int?
+  genres        String?   // JSON stringified array of genre objects/names
+  cast          String?   // JSON stringified array of top actors
+  directors     String?   // JSON stringified array of directors
+  trailerKey    String?   // YouTube video key for trailer
+  popularity    Float?
+  cachedAt      DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  wishlistItems Wishlist[]
+
+  @@index([title])
+  @@index([popularity])
+}
+
+// Cached Query Results (for Search & Discover filter combinations)
+model QueryCache {
+  queryKey      String    @id // e.g., "search:batman:1" or "discover:genre_28:sort_popularity.desc:1"
+  resultIds     String    // JSON stringified array of movie IDs
+  totalResults  Int       @default(0)
+  totalPages    Int       @default(1)
+  cachedAt      DateTime  @default(now())
+}
+
+// Persistent Wishlist (Guest mode, persisted directly to DB)
+model Wishlist {
+  id            Int         @id @default(autoincrement())
+  movieId       Int         @unique
+  movie         MovieCache  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  isWatched     Boolean     @default(false)
+  userNote      String?
+  addedAt       DateTime    @default(now())
+}
