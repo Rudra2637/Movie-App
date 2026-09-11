@@ -158,7 +158,7 @@ npm run dev
 
 In compliance with the assignment guidelines:
 - **AI Tools Used**: AI Assistant.
-- **How AI was Utilized**: Used AI primarily for generating initial boilerplate code, setting up project templates, and assisting with frontend styling & CSS design.
+- **How AI was Utilized**: Used AI primarily for generating initial boilerplate code, setting up project templates, handling repetitive implementation work, and assisting with frontend styling & CSS design.
 
 ---
 
