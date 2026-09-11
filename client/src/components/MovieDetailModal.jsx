@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Star, Calendar, Clock, Bookmark, Play, Users, Film, Check, Sparkles, ExternalLink } from 'lucide-react';
+import { X, Star, Calendar, Clock, Bookmark, Play, Check } from 'lucide-react';
 
 export default function MovieDetailModal({
   movie,
@@ -12,7 +12,6 @@ export default function MovieDetailModal({
 }) {
   const [showTrailer, setShowTrailer] = useState(false);
 
-  // Close on Escape key
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === 'Escape') onClose();
@@ -34,34 +33,35 @@ export default function MovieDetailModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-10 overflow-y-auto">
-        {/* Backdrop Backdrop Overlay */}
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 overflow-y-auto">
+        {/* Dark Screen Mask */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/85 backdrop-blur-md"
+          className="fixed inset-0 bg-[#08090c]/90 backdrop-blur-sm"
         />
 
-        {/* Modal Window Container */}
+        {/* Screening Vault Modal */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl glass-panel shadow-2xl border border-slate-700/80 bg-[#0f172a] text-slate-100 z-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.2 }}
+          className="relative w-full max-w-3xl max-h-[92vh] sm:max-h-[88vh] overflow-y-auto rounded-t-xl sm:rounded-xl bg-[#12151d] border border-[#1e2433] text-[#e2dbd0] z-10 shadow-2xl"
         >
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-30 w-10 h-10 rounded-full glass-card hover:bg-slate-800/90 text-slate-300 hover:text-white flex items-center justify-center transition-all border border-slate-700/80"
+            className="absolute top-3 right-3 z-40 w-8 h-8 rounded-lg bg-[#08090c]/80 hover:bg-[#181c26] text-[#828b99] hover:text-[#e2dbd0] flex items-center justify-center border border-[#1e2433] transition-colors"
+            title="Close"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
 
-          {/* Media Header (Trailer Video Embed OR Backdrop Image) */}
-          <div className="relative aspect-video sm:h-[380px] w-full bg-slate-950 overflow-hidden">
+          {/* Screening Aperture */}
+          <div className="relative aspect-video sm:h-[340px] w-full bg-[#08090c] overflow-hidden">
             {showTrailer && movie.trailerKey ? (
               <iframe
                 src={`https://www.youtube.com/embed/${movie.trailerKey}?autoplay=1&rel=0`}
@@ -79,18 +79,16 @@ export default function MovieDetailModal({
                     : 'none',
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/50 to-transparent"></div>
-                <div className="absolute inset-0 bg-slate-950/30"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#12151d] via-[#12151d]/60 to-transparent"></div>
 
-                {/* Play Trailer Trigger Button */}
                 {movie.trailerKey && (
-                  <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute inset-0 flex items-center justify-center p-4">
                     <button
                       onClick={() => setShowTrailer(true)}
-                      className="group flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-indigo-600/90 hover:bg-indigo-500 backdrop-blur-md text-white font-bold text-sm sm:text-base shadow-2xl shadow-indigo-600/60 transition-all hover:scale-105 active:scale-95"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#d49547] hover:bg-[#c28539] text-[#08090c] font-bold text-xs sm:text-sm transition-colors"
                     >
-                      <Play className="w-5 h-5 fill-white" />
-                      Play Official Trailer
+                      <Play className="w-4 h-4 fill-[#08090c]" />
+                      Play Trailer
                     </button>
                   </div>
                 )}
@@ -98,17 +96,17 @@ export default function MovieDetailModal({
             )}
           </div>
 
-          {/* Modal Body Info */}
-          <div className="p-6 sm:p-8 space-y-6">
-            <div className="flex flex-col md:flex-row gap-6 items-start justify-between">
-              <div className="space-y-3 flex-1">
+          {/* Film Details Info */}
+          <div className="p-4 sm:p-6 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div className="space-y-2 flex-1">
                 {/* Genres */}
                 {movie.genres?.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {movie.genres.map((genre, i) => (
                       <span
                         key={i}
-                        className="px-3 py-1 rounded-lg text-xs font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
+                        className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#181c26] text-[#e2dbd0] border border-[#262c3d]"
                       >
                         {genre}
                       </span>
@@ -117,57 +115,52 @@ export default function MovieDetailModal({
                 )}
 
                 {/* Title */}
-                <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight font-['Outfit']">
+                <h2 className="text-xl sm:text-3xl font-bold text-[#e2dbd0] font-['Syne']">
                   {movie.title}
                 </h2>
 
-                {/* Metadata Pills */}
-                <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-300">
+                {/* Metadata String */}
+                <div className="flex flex-wrap items-center gap-3 text-xs text-[#828b99]">
                   {movie.voteAverage > 0 && (
-                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 font-bold">
-                      <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                      <span>{movie.voteAverage.toFixed(1)} / 10</span>
-                      {movie.voteCount > 0 && (
-                        <span className="text-amber-300/70 font-normal">
-                          ({movie.voteCount.toLocaleString()} votes)
-                        </span>
-                      )}
-                    </div>
+                    <span className="flex items-center gap-1 font-bold text-[#d49547]">
+                      <Star className="w-3.5 h-3.5 fill-[#d49547]" />
+                      {movie.voteAverage.toFixed(1)} / 10
+                    </span>
                   )}
 
                   {movie.releaseDate && (
-                    <div className="flex items-center gap-1.5 text-slate-300">
-                      <Calendar className="w-4 h-4 text-slate-400" />
-                      <span>{new Date(movie.releaseDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                    </div>
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-3.5 h-3.5 text-[#5a6270]" />
+                      {new Date(movie.releaseDate).getFullYear()}
+                    </span>
                   )}
 
                   {movie.runtime > 0 && (
-                    <div className="flex items-center gap-1.5 text-slate-300">
-                      <Clock className="w-4 h-4 text-slate-400" />
-                      <span>{formatRuntime(movie.runtime)}</span>
-                    </div>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5 text-[#5a6270]" />
+                      {formatRuntime(movie.runtime)}
+                    </span>
                   )}
                 </div>
               </div>
 
-              {/* Wishlist CTA */}
+              {/* Wishlist Toggle Button */}
               <button
                 onClick={() => onToggleWishlist(movie)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shrink-0 border ${
+                className={`w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-bold text-xs transition-colors shrink-0 ${
                   inWishlist
-                    ? 'bg-rose-500/20 text-rose-300 border-rose-500/40 hover:bg-rose-500/30'
-                    : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30'
+                    ? 'bg-[#181c26] text-[#d49547] border border-[#d49547]'
+                    : 'bg-[#d49547] hover:bg-[#c28539] text-[#08090c]'
                 }`}
               >
                 {inWishlist ? (
                   <>
-                    <Check className="w-4 h-4 text-rose-400" />
-                    In Your Wishlist
+                    <Check className="w-3.5 h-3.5 text-[#d49547]" />
+                    In Wishlist
                   </>
                 ) : (
                   <>
-                    <Bookmark className="w-4 h-4" />
+                    <Bookmark className="w-3.5 h-3.5" />
                     Add to Wishlist
                   </>
                 )}
@@ -175,50 +168,34 @@ export default function MovieDetailModal({
             </div>
 
             {/* Synopsis Overview */}
-            <div className="space-y-2">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Synopsis</h4>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                {movie.overview || 'No synopsis provided.'}
+            <div className="space-y-1 pt-1">
+              <span className="text-[11px] font-bold text-[#828b99] uppercase tracking-wider">Synopsis</span>
+              <p className="text-xs sm:text-sm text-[#e2dbd0] leading-relaxed max-w-2xl">
+                {movie.overview || 'No synopsis available in archival record.'}
               </p>
             </div>
 
             {/* Cast & Crew Section */}
             {movie.cast?.length > 0 && (
-              <div className="space-y-3 pt-2">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400">
-                  <Users className="w-4 h-4 text-indigo-400" />
-                  <span>Key Cast & Crew</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
+              <div className="space-y-1.5 pt-2 border-t border-[#1a1f2c]">
+                <span className="text-[11px] font-bold text-[#828b99] uppercase tracking-wider">Cast & Directors</span>
+                <div className="flex flex-wrap gap-1.5">
                   {movie.cast.map((actor, idx) => (
                     <span
                       key={idx}
-                      className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700/70 text-xs font-medium text-slate-200"
+                      className="px-2 py-0.5 rounded bg-[#181c26] border border-[#262c3d] text-[11px] text-[#e2dbd0]"
                     >
                       {actor}
                     </span>
                   ))}
                   {movie.directors?.length > 0 && (
-                    <span className="px-3 py-1.5 rounded-xl bg-indigo-950/80 border border-indigo-500/30 text-xs font-semibold text-indigo-300">
+                    <span className="px-2 py-0.5 rounded bg-[#1f1910] border border-[#4a3518] text-[11px] font-semibold text-[#d49547]">
                       Dir. {movie.directors.join(', ')}
                     </span>
                   )}
                 </div>
               </div>
             )}
-
-            {/* Cache Status Badge */}
-            <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
-              <span>
-                Data Strategy:{' '}
-                <strong className="text-slate-400">
-                  {movie._source === 'database_cache'
-                    ? '⚡ Served directly from SQLite DB Cache (<10ms)'
-                    : '🌐 Retrieved & Saved to SQLite DB'}
-                </strong>
-              </span>
-              <span>ID: #{movie.id}</span>
-            </div>
           </div>
         </motion.div>
       </div>

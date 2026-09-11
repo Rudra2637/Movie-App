@@ -22,7 +22,7 @@ export default function MovieGrid({
   }
 
   if (error && movies.length === 0) {
-    return <EmptyState title="Oops! Something went wrong" description={error} onReset={onReset} isError />;
+    return <EmptyState title="Unable to retrieve titles" description={error} onReset={onReset} isError />;
   }
 
   if (!loading && movies.length === 0) {
@@ -32,9 +32,9 @@ export default function MovieGrid({
   const hasMore = page < totalPages;
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6">
       {/* Movie Cards Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
         {movies.map((movie) => (
           <MovieCard
             key={`${movie.id}-${movie.title}`}
@@ -46,23 +46,23 @@ export default function MovieGrid({
         ))}
       </div>
 
-      {/* Pagination / Load More Button */}
+      {/* Pagination Load More */}
       {hasMore && (
-        <div className="flex flex-col items-center justify-center pt-6 pb-12">
+        <div className="flex flex-col items-center justify-center pt-4 pb-8">
           <button
             onClick={onLoadMore}
             disabled={loadingMore}
-            className="flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 hover:text-white font-bold text-sm border border-slate-700/80 hover:border-indigo-500/50 transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#12151d] hover:bg-[#181c26] text-[#e2dbd0] hover:text-[#d49547] text-xs font-semibold border border-[#1e2433] hover:border-[#d49547] transition-colors disabled:opacity-50"
           >
             {loadingMore ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin text-indigo-400" />
-                Loading More Movies...
+                <Loader2 className="w-4 h-4 animate-spin text-[#d49547]" />
+                Loading Records...
               </>
             ) : (
               <>
-                <ChevronDown className="w-5 h-5 text-indigo-400" />
-                Load More Titles (Page {page + 1} of {totalPages})
+                <ChevronDown className="w-4 h-4 text-[#d49547]" />
+                Load Page {page + 1} of {totalPages}
               </>
             )}
           </button>

@@ -2,94 +2,61 @@
 
 @layer base {
   * {
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: #1a1f2c;
   }
   
   body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #0b0f19;
-    color: #f1f5f9;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #08090c;
+    color: #e2dbd0;
     overflow-x: hidden;
+    letter-spacing: -0.01em;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', sans-serif;
+  h1, h2, h3, h4 {
+    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -0.025em;
   }
 }
 
-/* Glassmorphism utility classes */
-.glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Screening Room Architectural Plates (No fuzzy generic SaaS gradients) */
+.film-plate {
+  background-color: #12151d;
+  border: 1px solid #1e2433;
 }
 
-.glass-card {
-  background: rgba(30, 41, 59, 0.6);
+.film-plate:hover {
+  border-color: #d49547;
+}
+
+.film-header {
+  background-color: rgba(8, 9, 12, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid #1a1f2c;
 }
 
-.glass-nav {
-  background: rgba(11, 15, 25, 0.82);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+/* Single Accent Focus Rings for high accessibility */
+input:focus-visible, select:focus-visible, button:focus-visible {
+  outline: 2px solid #d49547;
+  outline-offset: 2px;
 }
 
-/* Custom glowing borders & gradients */
-.glow-indigo {
-  box-shadow: 0 0 35px -5px rgba(99, 102, 241, 0.35);
-}
-
-.glow-card {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glow-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.5), 0 0 24px -4px rgba(99, 102, 241, 0.25);
-  border-color: rgba(99, 102, 241, 0.4);
-}
-
-/* Custom sleek scrollbar */
+/* Clean Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b0f19;
+  background: #08090c;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 4px;
+  background: #1e2433;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
-}
-
-/* Shimmer animation for skeletons */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(30, 41, 59, 0.5) 25%,
-    rgba(51, 65, 85, 0.8) 50%,
-    rgba(30, 41, 59, 0.5) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.8s infinite;
+  background: #d49547;
 }

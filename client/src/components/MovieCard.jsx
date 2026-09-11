@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Star, Bookmark, Play, Film } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Star, Bookmark, Film } from 'lucide-react';
 
 export default function MovieCard({
   movie,
@@ -20,84 +19,71 @@ export default function MovieCard({
     : '';
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
-      className="group relative flex flex-col rounded-2xl overflow-hidden glass-card glow-card cursor-pointer border border-slate-800/80"
+    <article
+      className="group relative flex flex-col rounded-lg overflow-hidden film-plate cursor-pointer transition-colors duration-200"
       onClick={() => onOpenDetails(movie)}
     >
-      {/* Poster Image Container */}
-      <div className="relative aspect-[2/3] w-full overflow-hidden bg-slate-900">
+      {/* Poster Media Area */}
+      <div className="relative aspect-[2/3] w-full overflow-hidden bg-[#08090c]">
         {posterUrl && !imageError ? (
           <img
             src={posterUrl}
             alt={movie.title}
             onError={() => setImageError(true)}
             loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+            className="w-full h-full object-cover"
           />
         ) : (
-          /* High-Quality Missing Poster Fallback */
-          <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-slate-900 to-slate-950 text-slate-500">
-            <Film className="w-12 h-12 mb-3 text-slate-600" />
-            <p className="text-xs font-semibold text-slate-400 line-clamp-2">{movie.title}</p>
-            <span className="text-[10px] mt-1 text-slate-600">No poster available</span>
+          <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-[#0d0f14] text-[#5a6270]">
+            <Film className="w-8 h-8 mb-2 text-[#353c4d]" />
+            <span className="text-[11px] font-medium text-[#828b99] line-clamp-2">{movie.title}</span>
           </div>
         )}
 
-        {/* Hover Overlay with Play Icon */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-600/90 backdrop-blur-md flex items-center justify-center text-white shadow-xl shadow-indigo-600/50 transform scale-75 group-hover:scale-100 transition-transform duration-300">
-            <Play className="w-6 h-6 fill-white ml-0.5" />
-          </div>
-        </div>
-
-        {/* Top Badges (Rating & Wishlist Button) */}
-        <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+        {/* Top Badges */}
+        <div className="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
           {movie.voteAverage > 0 ? (
-            <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-950/80 backdrop-blur-md border border-slate-800 text-amber-400 font-bold text-xs shadow-lg">
-              <Star className="w-3 h-3 fill-amber-400" />
+            <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-[#08090c]/90 text-[#d49547] font-bold text-[10px]">
+              <Star className="w-2.5 h-2.5 fill-[#d49547]" />
               <span>{movie.voteAverage.toFixed(1)}</span>
             </div>
           ) : (
             <div />
           )}
 
-          {/* Quick Wishlist Toggle */}
+          {/* Wishlist Toggle Button */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               onToggleWishlist(movie);
             }}
-            className={`pointer-events-auto w-9 h-9 rounded-xl flex items-center justify-center backdrop-blur-md transition-all shadow-lg ${
+            className={`pointer-events-auto w-7 h-7 sm:w-8 sm:h-8 rounded flex items-center justify-center transition-colors ${
               inWishlist
-                ? 'bg-rose-500 text-white shadow-rose-500/40 scale-105'
-                : 'bg-slate-950/70 hover:bg-slate-900 text-slate-300 hover:text-white border border-slate-800 hover:scale-105'
+                ? 'bg-[#d49547] text-[#08090c]'
+                : 'bg-[#08090c]/80 text-[#828b99] hover:text-[#e2dbd0] border border-[#1e2433]'
             }`}
-            title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+            title={inWishlist ? 'Remove from wishlist' : 'Save to wishlist'}
           >
-            <Bookmark className={`w-4 h-4 ${inWishlist ? 'fill-white' : ''}`} />
+            <Bookmark className={`w-3.5 h-3.5 ${inWishlist ? 'fill-[#08090c]' : ''}`} />
           </button>
         </div>
       </div>
 
-      {/* Card Info Footer */}
-      <div className="p-4 flex-1 flex flex-col justify-between bg-slate-900/40">
+      {/* Plate Footer */}
+      <div className="p-3 flex-1 flex flex-col justify-between bg-[#12151d]">
         <div>
           <h3
-            className="text-sm sm:text-base font-bold text-slate-100 group-hover:text-indigo-400 transition-colors line-clamp-1 font-['Outfit']"
+            className="text-xs sm:text-sm font-bold text-[#e2dbd0] group-hover:text-[#d49547] transition-colors line-clamp-1 font-['Syne']"
             title={movie.title}
           >
             {movie.title}
           </h3>
 
-          <div className="flex items-center gap-2 mt-1.5 text-xs text-slate-400 font-medium">
+          <div className="flex items-center gap-1.5 mt-1 text-[11px] text-[#828b99]">
             {releaseYear && <span>{releaseYear}</span>}
-            {releaseYear && movie.genres?.length > 0 && <span>•</span>}
+            {releaseYear && movie.genres?.length > 0 && <span>/</span>}
             {movie.genres?.length > 0 && (
-              <span className="truncate text-slate-400">
+              <span className="truncate">
                 {movie.genres.slice(0, 2).join(', ')}
               </span>
             )}
@@ -105,18 +91,17 @@ export default function MovieCard({
         </div>
 
         {movie._source && (
-          <div className="mt-3 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-400">
+          <div className="mt-2 pt-2 border-t border-[#1a1f2c] flex items-center justify-between text-[10px] text-[#5a6270]">
             <span>
               {movie._source === 'database_cache'
-                ? '⚡ Cached in DB'
+                ? 'Cached in DB'
                 : movie._source === 'fallback_dataset'
-                ? '📦 Curated'
-                : '🌐 TMDB'}
+                ? 'Curated'
+                : 'TMDB'}
             </span>
-            {movie.popularity > 0 && <span>Pop: {Math.round(movie.popularity)}</span>}
           </div>
         )}
       </div>
-    </motion.div>
+    </article>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Film, Search, Bookmark, X, Flame } from 'lucide-react';
+import { Search, Bookmark, X, Aperture } from 'lucide-react';
 
 export default function Navbar({
   searchQuery,
@@ -10,7 +10,6 @@ export default function Navbar({
 }) {
   const searchInputRef = useRef(null);
 
-  // Global keyboard shortcut ('/' to focus search)
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === '/' && document.activeElement !== searchInputRef.current) {
@@ -23,71 +22,57 @@ export default function Navbar({
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full glass-nav transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 w-full film-header transition-colors">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-3 sm:gap-6">
         {/* Brand Logo */}
         <div
           onClick={() => onQuickExplore('trending')}
-          className="flex items-center gap-3 cursor-pointer group shrink-0"
+          className="flex items-center gap-2.5 cursor-pointer group shrink-0"
         >
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-rose-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform duration-300">
-            <Film className="w-6 h-6 text-white" />
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#181c26] border border-[#262c3d] flex items-center justify-center text-[#d49547] group-hover:border-[#d49547] transition-colors">
+            <Aperture className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-xl font-black tracking-tight text-white font-['Outfit']">
-                Cine<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-rose-400">Pulse</span>
-              </span>
-              <span className="px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 rounded border border-indigo-500/30">
-                PRO
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-400 font-medium hidden sm:block">Movie Discovery & Streaming Hub</p>
+            <span className="text-base sm:text-lg font-extrabold tracking-tight text-[#e2dbd0] font-['Syne']">
+              CinePulse
+            </span>
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="flex-1 max-w-xl relative">
+        {/* Search Input */}
+        <div className="flex-1 max-w-lg relative">
           <div className="relative flex items-center">
-            <Search className="absolute left-4 w-4 h-4 text-slate-400 pointer-events-none" />
+            <Search className="absolute left-3.5 w-4 h-4 text-[#828b99] pointer-events-none" />
             <input
               ref={searchInputRef}
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Search movies, actors, directors... (Press '/' to focus)"
-              className="w-full h-11 pl-11 pr-12 rounded-xl bg-slate-900/80 border border-slate-700/60 focus:border-indigo-500/80 focus:ring-2 focus:ring-indigo-500/20 text-sm text-slate-100 placeholder-slate-500 transition-all outline-none"
+              placeholder="Search by title, director, or actor... (Press '/')"
+              className="w-full h-10 pl-10 pr-9 rounded-lg bg-[#12151d] border border-[#1e2433] focus:border-[#d49547] text-xs sm:text-sm text-[#e2dbd0] placeholder-[#5a6270] transition-colors outline-none"
             />
-            {searchQuery ? (
+            {searchQuery && (
               <button
                 onClick={() => onSearchChange('')}
-                className="absolute right-3 p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
-                title="Clear search"
+                className="absolute right-2.5 p-1 text-[#828b99] hover:text-[#e2dbd0]"
+                title="Clear"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
-            ) : (
-              <div className="absolute right-3 hidden sm:flex items-center">
-                <kbd className="px-2 py-0.5 text-[10px] font-semibold text-slate-400 bg-slate-800 border border-slate-700 rounded-md">
-                  /
-                </kbd>
-              </div>
             )}
           </div>
         </div>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-3">
-          {/* Wishlist Button */}
+        {/* Wishlist / Screening Cabinet */}
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={onOpenWishlist}
-            className="relative flex items-center gap-2.5 px-4 h-11 rounded-xl glass-card hover:bg-slate-800/80 text-slate-200 hover:text-white transition-all border border-slate-700/60 hover:border-indigo-500/40 group"
+            className="flex items-center gap-2 px-3.5 h-10 rounded-lg bg-[#12151d] hover:bg-[#181c26] text-[#e2dbd0] border border-[#1e2433] hover:border-[#d49547] transition-colors text-xs font-semibold"
           >
-            <Bookmark className="w-5 h-5 text-indigo-400 group-hover:scale-110 transition-transform" />
-            <span className="text-sm font-semibold hidden md:inline">Wishlist</span>
-            
+            <Bookmark className="w-4 h-4 text-[#d49547]" />
+            <span className="hidden sm:inline">Wishlist</span>
             {wishlistCount > 0 && (
-              <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold text-white bg-gradient-to-r from-rose-500 to-indigo-600 rounded-full shadow-md animate-pulse">
+              <span className="flex items-center justify-center min-w-[18px] h-4.5 px-1 text-[11px] font-bold text-[#08090c] bg-[#d49547] rounded">
                 {wishlistCount}
               </span>
             )}

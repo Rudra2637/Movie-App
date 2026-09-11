@@ -3,7 +3,7 @@ import axios from 'axios';
 // Create API client pointing to Node.js backend
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
-  timeout: 10000,
+  timeout: 25000,
 });
 
 export const MovieAPI = {

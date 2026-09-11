@@ -17,7 +17,7 @@ export const TMDB_CONFIG = {
   },
   API_KEY: process.env.TMDB_API_KEY || '8265bd1679663a7ea12ac168da84d2e8', // Default public demo key
   ACCESS_TOKEN: process.env.TMDB_ACCESS_TOKEN || '',
-  TIMEOUT_MS: 3500, // Fast 3.5s timeout for snappy UX
+  TIMEOUT_MS: 20000, // Generous 20s timeout allowing full TMDB response time
   CACHE_TTL_HOURS: 24, // DB Cache TTL for movies
 };
 

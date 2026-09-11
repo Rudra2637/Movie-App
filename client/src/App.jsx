@@ -10,24 +10,22 @@ import { useMovies } from './hooks/useMovies.js';
 import { useWishlist } from './hooks/useWishlist.js';
 import { useDebounce } from './hooks/useDebounce.js';
 import { HeroSkeleton } from './components/Skeletons.jsx';
-import { Film, Database, Zap, ShieldCheck } from 'lucide-react';
+import { Aperture } from 'lucide-react';
 
 export default function App() {
-  // Toast notifications state
   const [toasts, setToasts] = useState([]);
   const addToast = useCallback((message, type = 'info') => {
     const id = Date.now();
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 3500);
+    }, 3200);
   }, []);
 
   const dismissToast = useCallback((id) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  // Custom Hooks
   const {
     movies,
     trending,
@@ -65,21 +63,18 @@ export default function App() {
     toggleWatched,
   } = useWishlist(addToast);
 
-  // Search input local state & debounce
   const [searchInput, setSearchInput] = useState('');
   const debouncedSearch = useDebounce(searchInput, 350);
 
-  // Sync debounced search with main movie state
   useEffect(() => {
     setSearchQuery(debouncedSearch);
   }, [debouncedSearch, setSearchQuery]);
 
-  // Wishlist Drawer State
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0b0f19] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200">
-      {/* 1. Header Navigation Bar */}
+    <div className="min-h-screen flex flex-col bg-[#08090c] text-[#e2dbd0]">
+      {/* 1. Header */}
       <Navbar
         searchQuery={searchInput}
         onSearchChange={setSearchInput}
@@ -91,9 +86,9 @@ export default function App() {
         }}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* 2. Hero Spotlight Carousel (Hidden when user is actively searching) */}
+      {/* Main Screening Console */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
+        {/* 2. Projection Aperture (Spotlight) */}
         {!searchInput && selectedGenre === 'all' && selectedYear === 'all' && minRating === 0 && (
           loading && trending.length === 0 ? (
             <HeroSkeleton />
@@ -107,7 +102,7 @@ export default function App() {
           )
         )}
 
-        {/* 3. Interactive Filter & Sorting Bar */}
+        {/* 3. Archival Filters */}
         <FilterBar
           genres={genres}
           selectedGenre={selectedGenre}
@@ -125,15 +120,15 @@ export default function App() {
           totalResults={totalResults}
         />
 
-        {/* 4. Movie Grid & Pagination */}
-        <div className="mb-16">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl sm:text-2xl font-black text-white font-['Outfit'] tracking-tight">
+        {/* 4. Film Plate Grid */}
+        <section className="mb-12">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-base sm:text-lg font-bold text-[#e2dbd0] font-['Syne'] tracking-tight">
               {searchInput
-                ? `Search results for "${searchInput}"`
+                ? `Results for "${searchInput}"`
                 : selectedGenre !== 'all'
-                ? `${genres.find((g) => String(g.id) === selectedGenre)?.name || 'Genre'} Movies`
-                : 'Trending & Popular Movies'}
+                ? `${genres.find((g) => String(g.id) === selectedGenre)?.name || 'Genre'} Reel`
+                : 'Current Archival Reel'}
             </h2>
           </div>
 
@@ -153,10 +148,10 @@ export default function App() {
               resetFilters();
             }}
           />
-        </div>
+        </section>
       </main>
 
-      {/* 5. Movie Details & Trailer Modal */}
+      {/* 5. Movie Detail Modal */}
       <MovieDetailModal
         movie={activeMovieDetails}
         loading={loadingDetails}
@@ -166,7 +161,7 @@ export default function App() {
         onSelectSimilar={openMovieDetails}
       />
 
-      {/* 6. Persistent Wishlist Slide-Over Drawer */}
+      {/* 6. Screening Cabinet Drawer */}
       <WishlistDrawer
         isOpen={isWishlistOpen}
         onClose={() => setIsWishlistOpen(false)}
@@ -183,37 +178,18 @@ export default function App() {
       {/* 7. Toast Notifications */}
       <Toast toasts={toasts} onDismiss={dismissToast} />
 
-      {/* 8. Footer */}
-      <footer className="border-t border-slate-800/80 bg-slate-950/60 py-10 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white">
-              <Film className="w-4 h-4" />
-            </div>
-            <span className="font-bold text-white font-['Outfit'] tracking-tight">
-              CinePulse Movie Discovery
-            </span>
+      {/* 8. Minimalist Archival Footer */}
+      <footer className="border-t border-[#1a1f2c] bg-[#08090c] py-6 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#5a6270]">
+          <div className="flex items-center gap-2 text-[#828b99]">
+            <Aperture className="w-3.5 h-3.5 text-[#d49547]" />
+            <span className="font-semibold text-[#e2dbd0] font-['Syne']">CinePulse Console</span>
           </div>
 
-          {/* Technical highlights badge row */}
-          <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400">
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
-              <Database className="w-3.5 h-3.5 text-indigo-400" />
-              <span>SQLite DB Cache-Aside</span>
-            </div>
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
-              <Zap className="w-3.5 h-3.5 text-amber-400" />
-              <span>Sub-10ms Cached Queries</span>
-            </div>
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Rate Limit Resilient</span>
-            </div>
+          <div className="flex items-center gap-4 text-[11px] font-mono">
+            <span>CACHE: SQLite Cache-Aside</span>
+            <span>DATA: TMDB API Abstraction</span>
           </div>
-
-          <p className="text-xs text-slate-500">
-            Full-Stack Assignment • React + Node.js + SQLite
-          </p>
         </div>
       </footer>
     </div>
